@@ -10,7 +10,8 @@ class FullScreenNote extends StatefulWidget {
   Note openedNote;
   // final void Function()? onPressedSave;
   final void Function(Note) saveFunction;
-  FullScreenNote({super.key, required this.openedNote, required this.saveFunction});
+  FullScreenNote(
+      {super.key, required this.openedNote, required this.saveFunction});
 
   @override
   State<FullScreenNote> createState() => _FullScreenNoteState();
@@ -37,13 +38,15 @@ class _FullScreenNoteState extends State<FullScreenNote> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            widget.openedNote.text = _titleController.text;
+            widget.openedNote.content = _contentController.text;
+            widget.saveFunction(widget.openedNote);
+            Navigator.pop(context);
+          },
+        ),
         backgroundColor: Colors.transparent,
-        actions: [IconButton(onPressed: () {
-          widget.openedNote.text=_titleController.text;
-          widget.openedNote.content=_contentController.text;
-          widget.saveFunction(widget.openedNote);
-          Navigator.pop(context);
-        }, icon: Icon(Icons.save))],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Padding(

@@ -4,20 +4,22 @@ import 'package:minimal_notes/models/NoteDatabasee.dart';
 import 'package:minimal_notes/models/NoteModel.dart';
 import 'package:minimal_notes/pages/FullScreenNote.dart';
 import 'package:minimal_notes/widgets/NoteTile.dart';
+import 'package:minimal_notes/widgets/TodoTile.dart';
 import 'package:provider/provider.dart';
 
-class NotesPage extends StatefulWidget {
-  const NotesPage({super.key});
+class TodoPage extends StatefulWidget {
+  const TodoPage({super.key});
 
   @override
-  State<NotesPage> createState() => _NotesPageState();
+  State<TodoPage> createState() => _TodoPageState();
 }
 
-class _NotesPageState extends State<NotesPage> {
+class _TodoPageState extends State<TodoPage> {
+
   TextEditingController _controller = TextEditingController();
   TextEditingController _contentController = TextEditingController();
 
-// Create note
+  // Create note
   void createNote() {
     showDialog(
       context: context,
@@ -83,17 +85,17 @@ class _NotesPageState extends State<NotesPage> {
     context.read<NoteDatabase>().deleteNote(id);
   }
 
-  @override
-  void initState() {
+    void initState() {
     //fetch notes on startup
     readNote();
     super.initState();
   }
 
+
+  @override
   Widget build(BuildContext context) {
     final noteDatabase = context.watch<NoteDatabase>();
     List<Note> currentNotes = noteDatabase.currentNotes;
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -107,7 +109,7 @@ class _NotesPageState extends State<NotesPage> {
               Padding(
                 padding: const EdgeInsets.all(25.0),
                 child: Text(
-                  "Notes",
+                  "To-Do",
                   style: GoogleFonts.dmSerifText(
                       fontSize: 48,
                       fontWeight: FontWeight.w100,
@@ -163,7 +165,7 @@ class _NotesPageState extends State<NotesPage> {
                               );
                             },
                             onDismissed: (direction) {},
-                            child: NoteTile(
+                            child: TodoTile(
                               currentNote: currentNote,
                               // onPressedEdit: () => editNote(currentNote),
                               onPressedEdit: () => Navigator.push(
